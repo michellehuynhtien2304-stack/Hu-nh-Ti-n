@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中秋单音节词 · 语音声调练习 HSK2</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Roboto, sans-serif;
+      background: linear-gradient(145deg, #fff7e6 0%, #ffe9ce 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      margin: 0;
+    }
+
+    .app {
+      max-width: 980px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 48px;
+      box-shadow: 0 25px 40px -12px rgba(120, 70, 20, 0.3), 0 0 0 1px rgba(255, 245, 230, 0.7) inset;
+      padding: 34px 30px 40px;
+      transition: 0.2s;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 600;
+      color: #6b3e1c;
+      text-align: center;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1 span {
+      background: #b86b2c;
+      color: #fff6e0;
+      font-size: 0.9rem;
+      padding: 5px 16px;
+      border-radius: 40px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .subhead {
+      text-align: center;
+      color: #8a5e3c;
+      font-size: 1rem;
+      margin-bottom: 26px;
+      font-weight: 400;
+      border-bottom: 2px dashed #ebcbaa;
+      padding-bottom: 16px;
+    }
+
+    .subhead i {
+      font-style: normal;
+      background: #fae6d2;
+      padding: 4px 14px;
+      border-radius: 50px;
+      color: #7a4a24;
+    }
+
+    .practice-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* 主卡片：图片 + 拼音 + 汉字 */
+    .card-section {
+      width: 100%;
+      background: #fffdf8;
+      border-radius: 36px;
+      padding: 30px 22px 26px;
+      box-shadow: 0 6px 18px rgba(180, 130, 70, 0.1), 0 2px 6px rgba(0, 0, 0, 0.02);
+      border: 1px solid #f3ddc6;
+    }
+
+    .card-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .image-box {
+      width: 150px;
+      height: 150px;
+      border-radius: 42px;
+      background: #fdf3e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 18px rgba(160, 110, 60, 0.18);
+      border: 1px solid #f0dac6;
+      flex-shrink: 0;
+      overflow: hidden;
+      font-size: 5.2rem;
+      line-height: 1;
+      transition: transform 0.25s ease;
+    }
+
+    .image-box:hover {
+      transform: scale(1.03) rotate(1deg);
+    }
+
+    .text-info {
+      flex: 1;
+      min-width: 200px;
+      text-align: left;
+    }
+
+    .pinyin-display {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #5c2e0e;
+      letter-spacing: 6px;
+      text-shadow: 2px 2px 0 rgba(240, 200, 160, 0.3);
+      margin-bottom: 6px;
+      word-break: break-word;
+    }
+
+    .tone-mark-badge {
+      display: inline-block;
+      font-size: 0.95rem;
+      background: #f5e3d2;
+      color: #7b4d2a;
+      border-radius: 30px;
+      padding: 6px 18px;
+      margin-bottom: 14px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .hanzi-meaning {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px 18px;
+    }
+
+    .hanzi-meaning .hanzi {
+      font-size: 2.6rem;
+      font-weight: 600;
+      background: #fbf2e7;
+      padding: 6px 28px;
+      border-radius: 60px;
+      color: #4b2b13;
+      letter-spacing: 6px;
+    }
+
+    .hanzi-meaning .meaning {
+      font-size: 1.2rem;
+      color: #9b7a5c;
+      font-weight: 400;
+    }
+
+    /* 音频按钮 */
+    .audio-btn {
+      background: #fae6d2;
+      border: 1px solid #e7cbb0;
+      border-radius: 60px;
+      padding: 14px 32px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #6b3e1c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(200, 150, 100, 0.2);
+      transition: all 0.15s;
+      width: fit-content;
+      margin: 22px auto 0;
+    }
+
+    .audio-btn:hover {
+      background: #f5d9be;
+      transform: scale(1.02);
+      box-shadow: 0 10px 20px -8px #b87e4d;
+    }
+
+    .audio-btn:active {
+      transform: scale(0.97);
+      background: #eac9a8;
+    }
+
+    .audio-btn .icon {
+      font-size: 1.7rem;
+    }
+
+    /* 导航按钮 */
+    .nav-controls {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: white;
+      border: 1px solid #e2cdb8;
+      border-radius: 50px;
+      padding: 12px 28px;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #6b3e1c;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 2px 6px rgba(180, 130, 70, 0.08);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn:hover {
+      background: #fcf3e9;
+      border-color: #cfb79e;
+      transform: translateY(-2px);
+    }
+
+    .nav-btn:active {
+      transform: translateY(1px);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      pointer-events: none;
+      filter: grayscale(0.3);
+    }
+
+    /* 声调测验区 */
+    .tone-quiz {
+      width: 100%;
+      background: #fffaf3;
+      border-radius: 32px;
+      padding: 24px 22px 28px;
+      box-shadow: 0 4px 14px rgba(160, 110, 60, 0.08);
+      border: 1px solid #eedbc9;
+      margin-top: 6px;
+    }
+
+    .quiz-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #683f1f;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quiz-title .icon {
+      font-size: 1.7rem;
+    }
+
+    .tone-options {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .tone-btn {
+      background: #fff4e8;
+      border: 2px solid #e7cfb8;
+      border-radius: 60px;
+      padding: 14px 22px;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: #663f20;
+      cursor: pointer;
+      transition: all 0.15s;
+      min-width: 90px;
+      box-shadow: 0 2px 6px rgba(180, 130, 70, 0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.2;
+    }
+
+    .tone-btn small {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #9f7a5c;
+      margin-top: 6px;
+    }
+
+    .tone-btn:hover {
+      background: #fae8d8;
+      border-color: #cfa87e;
+    }
+
+    .tone-btn.selected {
+      background: #b86b2c;
+      border-color: #8e4e1a;
+      color: white;
+      box-shadow: 0 12px 18px -10px #8e4e1a;
+    }
+
+    .tone-btn.selected small {
+      color: #ffe1c6;
+    }
+
+    .tone-btn.correct-highlight {
+      background: #b7d9c7;
+      border-color: #2e7a56;
+      color: #1d4a34;
+    }
+
+    .tone-btn.incorrect-highlight {
+      background: #f5d0cc;
+      border-color: #b4534a;
+      color: #6b2e28;
+    }
+
+    .feedback-msg {
+      text-align: center;
+      font-size: 1rem;
+      min-height: 30px;
+      color: #7b4d2a;
+      font-weight: 500;
+      margin: 10px 0 4px;
+      padding: 8px 12px;
+      border-radius: 50px;
+      transition: 0.15s;
+    }
+
+    .feedback-msg.good {
+      color: #1d6b42;
+      background: #dff0e6;
+    }
+
+    .feedback-msg.bad {
+      color: #a13e36;
+      background: #fbe9e7;
+    }
+
+    .reset-area {
+      display: flex;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .reset-btn {
+      background: none;
+      border: 1px solid #e2cdb8;
+      border-radius: 40px;
+      padding: 10px 24px;
+      font-size: 0.95rem;
+      color: #8a5e3c;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .reset-btn:hover {
+      background: #fae6d2;
+      border-color: #c9a47e;
+    }
+
+    footer {
+      margin-top: 26px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #b18e6e;
+      letter-spacing: 0.3px;
+    }
+
+    @media (max-width: 700px) {
+      .card-content {
+        gap: 16px;
+      }
+      .image-box {
+        width: 120px;
+        height: 120px;
+        font-size: 4.2rem;
+      }
+      .pinyin-display {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .app {
+        padding: 22px 16px 30px;
+        border-radius: 32px;
+      }
+      .pinyin-display {
+        font-size: 2.4rem;
+        letter-spacing: 3px;
+      }
+      .hanzi-meaning .hanzi {
+        font-size: 1.8rem;
+        padding: 4px 16px;
+      }
+      .tone-btn {
+        padding: 10px 14px;
+        font-size: 1.4rem;
+        min-width: 68px;
+      }
+      .audio-btn {
+        padding: 12px 22px;
+        font-size: 1rem;
+      }
+      h1 {
+        font-size: 1.7rem;
+      }
+      .card-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .text-info {
+        text-align: center;
+      }
+      .hanzi-meaning {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <h1>🌕 中秋单音节词 <span>HSK 2</span></h1>
+  <div class="subhead"><i>看图 · 听音 · 选声调</i></div>
+
+  <div class="practice-area">
+    <!-- 主卡片：图片 + 拼音 + 汉字 -->
+    <div class="card-section">
+      <div class="card-content">
+        <div class="image-box" id="imageBox">🌕</div>
+        <div class="text-info">
+          <div class="pinyin-display" id="pinyinDisplay">yuè</div>
+          <div>
+            <span class="tone-mark-badge" id="toneBadge">第四声 (去声)</span>
+          </div>
+          <div class="hanzi-meaning">
+            <span class="hanzi" id="hanziDisplay">月</span>
+            <span class="meaning" id="meaningDisplay">moon</span>
+          </div>
+        </div>
+      </div>
+      <button class="audio-btn" id="audioBtn">
+        <span class="icon">🔊</span> 听发音
+      </button>
+      <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" disabled>← 上一个</button>
+        <button class="nav-btn" id="nextBtn">下一个 →</button>
+      </div>
+    </div>
+
+    <!-- 声调小测验：听后选择声调 -->
+    <div class="tone-quiz">
+      <div class="quiz-title">
+        <span class="icon">🎧</span> 听发音，选择这个词的声调
+      </div>
+      <div class="tone-options" id="toneOptions">
+        <button class="tone-btn" data-tone="1">ˉ<small>一声</small></button>
+        <button class="tone-btn" data-tone="2">ˊ<small>二声</small></button>
+        <button class="tone-btn" data-tone="3">ˇ<small>三声</small></button>
+        <button class="tone-btn" data-tone="4">ˋ<small>四声</small></button>
+        <button class="tone-btn" data-tone="0">·<small>轻声</small></button>
+      </div>
+      <div class="feedback-msg" id="feedbackMsg"></div>
+      <div class="reset-area">
+        <button class="reset-btn" id="resetQuizBtn">↺ 重新选择</button>
+      </div>
+    </div>
+  </div>
+  <footer>🌙 点击听发音 · 判断声调 · 中秋快乐 🌙</footer>
+</div>
+
+<script>
+  // ----- 中秋主题 · 单音节词库 (HSK2 初级) -----
+  // 每个词条包含：拼音、汉字、意思、正确声调、Emoji图片参考
+  const vocabulary = [
+    { pinyin: "yuè", hanzi: "月", meaning: "moon", tone: "4", emoji: "🌕" },
+    { pinyin: "bǐng", hanzi: "饼", meaning: "cake", tone: "3", emoji: "🥮" },
+    { pinyin: "qiū", hanzi: "秋", meaning: "autumn", tone: "1", emoji: "🍂" },
+    { pinyin: "yuán", hanzi: "圆", meaning: "round", tone: "2", emoji: "⭕" },
+    { pinyin: "guì", hanzi: "桂", meaning: "osmanthus", tone: "4", emoji: "🌼" },
+    { pinyin: "huā", hanzi: "花", meaning: "flower", tone: "1", emoji: "🌸" },
+    { pinyin: "dēng", hanzi: "灯", meaning: "lamp", tone: "1", emoji: "🏮" },
+    { pinyin: "liáng", hanzi: "凉", meaning: "cool", tone: "2", emoji: "🍃" },
+    { pinyin: "fēng", hanzi: "风", meaning: "wind", tone: "1", emoji: "💨" },
+    { pinyin: "yuàn", hanzi: "愿", meaning: "wish", tone: "4", emoji: "🌟" },
+    { pinyin: "hǎo", hanzi: "好", meaning: "good", tone: "3", emoji: "👍" },
+    { pinyin: "jiā", hanzi: "家", meaning: "home", tone: "1", emoji: "🏠" },
+    { pinyin: "rén", hanzi: "人", meaning: "person", tone: "2", emoji: "🧑" },
+    { pinyin: "tián", hanzi: "甜", meaning: "sweet", tone: "2", emoji: "🍯" },
+    { pinyin: "chī", hanzi: "吃", meaning: "eat", tone: "1", emoji: "🥢" },
+    { pinyin: "kàn", hanzi: "看", meaning: "look", tone: "4", emoji: "👀" }
+  ];
+
+  // 当前索引
+  let currentIndex = 0;
+  let currentWord = vocabulary[0];
+  let isAnswered = false;
+
+  // DOM 元素
+  const imageBox = document.getElementById('imageBox');
+  const pinyinDisplay = document.getElementById('pinyinDisplay');
+  const hanziDisplay = document.getElementById('hanziDisplay');
+  const meaningDisplay = document.getElementById('meaningDisplay');
+  const toneBadge = document.getElementById('toneBadge');
+  const audioBtn = document.getElementById('audioBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const toneBtns = document.querySelectorAll('.tone-btn');
+  const feedbackMsg = document.getElementById('feedbackMsg');
+  const resetQuizBtn = document.getElementById('resetQuizBtn');
+
+  // 工具：根据声调数字返回中文描述
+  function getToneDescription(tone) {
+    const map = {
+      '1': '第一声 (阴平)',
+      '2': '第二声 (阳平)',
+      '3': '第三声 (上声)',
+      '4': '第四声 (去声)',
+      '0': '轻声 (neutral)'
+    };
+    return map[tone] || '未知';
+  }
+
+  // 更新卡片UI
+  function updateCard() {
+    currentWord = vocabulary[currentIndex];
+    // 更新图片 emoji
+    imageBox.textContent = currentWord.emoji;
+    pinyinDisplay.textContent = currentWord.pinyin;
+    hanziDisplay.textContent = currentWord.hanzi;
+    meaningDisplay.textContent = currentWord.meaning;
+    toneBadge.textContent = getToneDescription(currentWord.tone);
+
+    // 重置答题状态
+    resetQuizState();
+
+    // 更新按钮禁用状态
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex === vocabulary.length - 1;
+  }
+
+  // 重置测验状态
+  function resetQuizState() {
+    isAnswered = false;
+    toneBtns.forEach(btn => {
+      btn.classList.remove('selected', 'correct-highlight', 'incorrect-highlight');
+    });
+    feedbackMsg.textContent = '';
+    feedbackMsg.className = 'feedback-msg';
+  }
+
+  // 播放当前词语发音 (单音节词，汉字朗读)
+  function speakCurrentWord() {
+    if (!('speechSynthesis' in window)) {
+      alert('你的浏览器不支持语音合成，请使用 Chrome、Edge 或 Safari。');
+      return;
+    }
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(currentWord.hanzi);
+    utterance.lang = 'zh-CN';
+    utterance.rate = 0.8;       // 单音节词稍慢，便于听清
+    utterance.pitch = 1;
+    utterance.volume = 1;
+
+    const voices = window.speechSynthesis.getVoices();
+    const zhVoice = voices.find(voice => voice.lang.includes('zh') || voice.lang.includes('CN'));
+    if (zhVoice) {
+      utterance.voice = zhVoice;
+    }
+
+    window.speechSynthesis.speak(utterance);
+
+    // 播放按钮动画
+    audioBtn.style.transform = 'scale(0.96)';
+    setTimeout(() => { audioBtn.style.transform = 'scale(1)'; }, 120);
+  }
+
+  // 检查声调选择
+  function checkTone(selectedTone) {
+    if (isAnswered) return;
+
+    const correctTone = currentWord.tone;
+    isAnswered = true;
+
+    toneBtns.forEach(btn => {
+      btn.classList.remove('selected', 'correct-highlight', 'incorrect-highlight');
+    });
+
+    const selectedBtn = Array.from(toneBtns).find(btn => btn.dataset.tone === selectedTone);
+    if (selectedBtn) {
+      selectedBtn.classList.add('selected');
+    }
+
+    if (selectedTone === correctTone) {
+      feedbackMsg.textContent = '✅ 正确！ 声调是 ' + getToneDescription(correctTone);
+      feedbackMsg.className = 'feedback-msg good';
+      if (selectedBtn) {
+        selectedBtn.classList.add('correct-highlight');
+      }
+    } else {
+      feedbackMsg.textContent = `❌ 再听一次… 正确声调是 ${getToneDescription(correctTone)}`;
+      feedbackMsg.className = 'feedback-msg bad';
+      if (selectedBtn) {
+        selectedBtn.classList.add('incorrect-highlight');
+      }
+      const correctBtn = Array.from(toneBtns).find(btn => btn.dataset.tone === correctTone);
+      if (correctBtn) {
+        correctBtn.classList.add('correct-highlight');
+      }
+    }
+  }
+
+  // 事件监听：点击音频按钮
+  audioBtn.addEventListener('click', speakCurrentWord);
+
+  // 上一个 / 下一个
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCard();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < vocabulary.length - 1) {
+      currentIndex++;
+      updateCard();
+    }
+  });
+
+  // 声调选项点击
+  toneBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const tone = e.currentTarget.dataset.tone;
+      checkTone(tone);
+    });
+  });
+
+  // 重置测验按钮
+  resetQuizBtn.addEventListener('click', () => {
+    resetQuizState();
+  });
+
+  // 初始化语音列表
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => {};
+  }
+
+  // 页面启动时更新卡片
+  updateCard();
+
+  // 键盘左右键切换 / 空格听音
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+      prevBtn.click();
+    } else if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+      nextBtn.click();
+    } else if (e.key === ' ' || e.key === 'Space') {
+      e.preventDefault();
+      speakCurrentWord();
+    }
+  });
+</script>
+</body>
+</html>
